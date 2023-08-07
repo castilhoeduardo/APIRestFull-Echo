@@ -90,8 +90,8 @@ func TestProduct(t *testing.T) {
 		res := httptest.NewRecorder()
 		e := echo.New()
 		c := e.NewContext(req, res)
-		c.SetParamNames("id")                      // this is a hack
-		c.SetParamValues(fmt.Sprintf("%s", docID)) //this is a hack
+		c.SetParamNames("id")
+		c.SetParamValues(fmt.Sprintf("%s", docID))
 		h.Col = col
 		err := h.GetProduct(c)
 		assert.Nil(t, err)
@@ -117,8 +117,8 @@ func TestProduct(t *testing.T) {
 		req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
 		e := echo.New()
 		c := e.NewContext(req, res)
-		c.SetParamNames("id")                      // this is a hack
-		c.SetParamValues(fmt.Sprintf("%s", docID)) //this is a hack
+		c.SetParamNames("id")
+		c.SetParamValues(fmt.Sprintf("%s", docID))
 		h.Col = col
 		err := h.UpdateProduct(c)
 		assert.Nil(t, err)
@@ -134,8 +134,8 @@ func TestProduct(t *testing.T) {
 		res := httptest.NewRecorder()
 		e := echo.New()
 		c := e.NewContext(req, res)
-		c.SetParamNames("id")                      // this is a hack
-		c.SetParamValues(fmt.Sprintf("%s", docID)) //this is a hack
+		c.SetParamNames("id")
+		c.SetParamValues(fmt.Sprintf("%s", docID))
 		h.Col = col
 		err := h.DeleteProduct(c)
 		assert.Nil(t, err)

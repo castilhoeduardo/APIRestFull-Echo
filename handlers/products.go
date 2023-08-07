@@ -7,14 +7,14 @@ import (
 	"net/http"
 	"net/url"
 
-	"github.com/krunal4amity/tronicscorp/dbiface"
+	"github.com/castilhoeduardo/APIRestFull-Echo/dbiface"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-//Product describes an electronic product e.g. phone
+// Product describes an electronic product e.g. phone
 type Product struct {
 	ID          primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name        string             `json:"product_name" bson:"product_name" validate:"required,max=10"`
@@ -26,7 +26,7 @@ type Product struct {
 	IsEssential bool               `json:"is_essential" bson:"is_essential"`
 }
 
-//ProductHandler a product handler
+// ProductHandler a product handler
 type ProductHandler struct {
 	Col dbiface.CollectionAPI
 }
@@ -61,7 +61,7 @@ func findProducts(ctx context.Context, q url.Values, collection dbiface.Collecti
 	return products, nil
 }
 
-//GetProducts gets a list of products
+// GetProducts gets a list of products
 func (h *ProductHandler) GetProducts(c echo.Context) error {
 	products, httpError := findProducts(context.Background(), c.QueryParams(), h.Col)
 	if httpError != nil {
@@ -88,7 +88,7 @@ func findProduct(ctx context.Context, id string, collection dbiface.CollectionAP
 	return product, nil
 }
 
-//GetProduct gets a single product
+// GetProduct gets a single product
 func (h *ProductHandler) GetProduct(c echo.Context) error {
 	product, httpError := findProduct(context.Background(), c.Param("id"), h.Col)
 	if httpError != nil {
@@ -113,7 +113,7 @@ func deleteProduct(ctx context.Context, id string, collection dbiface.Collection
 	return res.DeletedCount, nil
 }
 
-//DeleteProduct gets a single product
+// DeleteProduct gets a single product
 func (h *ProductHandler) DeleteProduct(c echo.Context) error {
 	delCount, httpError := deleteProduct(context.Background(), c.Param("id"), h.Col)
 	if httpError != nil {
@@ -163,7 +163,7 @@ func modifyProduct(ctx context.Context, id string, reqBody io.ReadCloser, collec
 	return product, nil
 }
 
-//UpdateProduct updates a product
+// UpdateProduct updates a product
 func (h *ProductHandler) UpdateProduct(c echo.Context) error {
 	product, httpError := modifyProduct(context.Background(), c.Param("id"), c.Request().Body, h.Col)
 	if httpError != nil {
@@ -187,7 +187,7 @@ func insertProducts(ctx context.Context, products []Product, collection dbiface.
 	return insertedIds, nil
 }
 
-//CreateProducts create products on mongodb database
+// CreateProducts create products on mongodb database
 func (h *ProductHandler) CreateProducts(c echo.Context) error {
 	var products []Product
 	c.Echo().Validator = &ProductValidator{validator: v}

@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/castilhoeduardo/APIRestFull-Echo/config"
 	"github.com/ilyakaznacheev/cleanenv"
-	"github.com/krunal4amity/tronicscorp/config"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"

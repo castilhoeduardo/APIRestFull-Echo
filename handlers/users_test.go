@@ -59,10 +59,7 @@ func TestUsers(t *testing.T) {
 
 	t.Run("test create user again unhappy", func(t *testing.T) {
 		body := `
-		{
-			"username":"krunal.shimpi@gmail.com",
-			"password":"abc12345"
-		}
+		 
 		`
 		req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(body))
 		res := httptest.NewRecorder()

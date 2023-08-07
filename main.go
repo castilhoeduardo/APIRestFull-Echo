@@ -9,10 +9,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
+	"github.com/castilhoeduardo/APIRestFull-Echo/config"
+	"github.com/castilhoeduardo/APIRestFull-Echo/handlers"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/ilyakaznacheev/cleanenv"
-	"github.com/krunal4amity/tronicscorp/config"
-	"github.com/krunal4amity/tronicscorp/handlers"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/labstack/gommon/log"

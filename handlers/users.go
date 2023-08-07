@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/castilhoeduardo/APIRestFull-Echo/config"
+	"github.com/castilhoeduardo/APIRestFull-Echo/dbiface"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/ilyakaznacheev/cleanenv"
-	"github.com/krunal4amity/tronicscorp/config"
-	"github.com/krunal4amity/tronicscorp/dbiface"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,14 +16,14 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-//User represents a user
+// User represents a user
 type User struct {
 	Email    string `json:"username" bson:"username" validate:"required,email"`
 	Password string `json:"password,omitempty" bson:"password" validate:"required,min=8,max=300"`
 	IsAdmin  bool   `json:"isadmin,omitempty" bson:"isadmin"`
 }
 
-//UsersHandler users handler
+// UsersHandler users handler
 type UsersHandler struct {
 	Col dbiface.CollectionAPI
 }
@@ -90,7 +90,6 @@ func insertUser(ctx context.Context, user User, collection dbiface.CollectionAPI
 	return User{Email: user.Email}, nil
 }
 
-//CreateUser creates a user
 func (h *UsersHandler) CreateUser(c echo.Context) error {
 	var user User
 	c.Echo().Validator = &userValidator{validator: v}
@@ -119,8 +118,7 @@ func (h *UsersHandler) CreateUser(c echo.Context) error {
 }
 
 func authenticateUser(ctx context.Context, reqUser User, collection dbiface.CollectionAPI) (User, *echo.HTTPError) {
-	var storedUser User //user in db
-	// check whether the user exists or not
+	var storedUser User
 	res := collection.FindOne(ctx, bson.M{"username": reqUser.Email})
 	err := res.Decode(&storedUser)
 	if err != nil && err != mongo.ErrNoDocuments {
@@ -133,7 +131,7 @@ func authenticateUser(ctx context.Context, reqUser User, collection dbiface.Coll
 		return storedUser,
 			echo.NewHTTPError(http.StatusNotFound, errorMessage{Message: "User does not exist"})
 	}
-	//validate the password
+
 	if !isCredValid(reqUser.Password, storedUser.Password) {
 		return storedUser,
 			echo.NewHTTPError(http.StatusUnauthorized, errorMessage{Message: "Credentials invalid"})
@@ -141,7 +139,6 @@ func authenticateUser(ctx context.Context, reqUser User, collection dbiface.Coll
 	return User{Email: storedUser.Email}, nil
 }
 
-// AuthnUser authenticates a user
 func (h *UsersHandler) AuthnUser(c echo.Context) error {
 	var user User
 	c.Echo().Validator = &userValidator{validator: v}
